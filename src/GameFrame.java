@@ -11,16 +11,18 @@ public class GameFrame extends JFrame implements KeyListener {
     public GameFrame() {
         this.addKeyListener(this);
 
+        //creates the main character
         Ally = new Ally();
 
         this.setSize(WIDTH, HEIGHT);
         this.setTitle("Azura");
-        this.setIconImage(new ImageIcon("image/Item/arm/arm5.png").getImage());
+        this.setIconImage(new ImageIcon("image/MainCharacter/Ally.png").getImage());
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.setLocationRelativeTo(null);//screen pop up location
+        this.setLocationRelativeTo(null);//screen pop up in the middle
         this.setResizable(false);
         this.setVisible(true);
 
+        Ally.start();
         Runnable r = () -> {
             while (true) {
                 this.repaint();
@@ -36,7 +38,10 @@ public class GameFrame extends JFrame implements KeyListener {
     }
 
     public void paint(Graphics g) {
-        g.drawImage(Ally.getImg(), 100, 100, this);
+        Graphics2D g2d = (Graphics2D) g;
+        g.drawImage(new ImageIcon("image/white_bg.png").getImage(), 0, 0, this);
+        g2d.drawImage(Ally.getImg(), Ally.getX(), Ally.getY(), this);
+
     }
 
     @Override
@@ -46,11 +51,52 @@ public class GameFrame extends JFrame implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
+        char key = e.getKeyChar();
 
+        if (key == 'w') {
+            Ally.setRunning(true);
+            Ally.setDirection("up");
+            Ally.checkDirection();
+            Ally.setY(Ally.getY() - Ally.getSpeed());
+        }
+        if (key == 'd') {
+            Ally.setRunning(true);
+            Ally.setDirection("right");
+            Ally.checkDirection();
+            Ally.setX(Ally.getX() + Ally.getSpeed());
+        }
+        if (key == 's') {
+            Ally.setRunning(true);
+            Ally.setDirection("down");
+            Ally.checkDirection();
+            Ally.setY(Ally.getY() + Ally.getSpeed());
+        }
+        if (key == 'a') {
+            Ally.setRunning(true);
+            Ally.setDirection("left");
+            Ally.checkDirection();
+            Ally.setX(Ally.getX() - Ally.getSpeed());
+        }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
+        char key = e.getKeyChar();
 
+        if (key == 'w') {
+            Ally.setDirection("up");
+        }
+        if (key == 'd') {
+            Ally.setDirection("right");
+        }
+        if (key == 's') {
+            Ally.setDirection("down");
+        }
+        if (key == 'a') {
+            Ally.setDirection("left");
+        }
+
+        Ally.setRunning(false);
+        Ally.checkDirection();
     }
 }

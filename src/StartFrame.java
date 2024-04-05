@@ -23,7 +23,6 @@ public class StartFrame extends JPanel implements ActionListener {
         jf = new JFrame("Candela");
 
         Font defaultFont = new Font("Courier New", Font.BOLD, 24);
-
         newGame = new JButton("New Game");
         newGame.setFont(defaultFont);
         newGame.setBounds(245, 240, 150, 24);
@@ -87,11 +86,6 @@ public class StartFrame extends JPanel implements ActionListener {
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.scale(0.7, 0.7);
-        g.drawImage((new ImageIcon("image/Title/title_back.png")).getImage(), 0, 0, this);
-        crystal1.draw(g);
-        crystal2.draw(g);
-        crystal3.draw(g);
-        crystal4.draw(g);
         if (stepping) {
             crystal1.adjustY(0.0005f);
             crystal2.adjustY(-0.001f);
@@ -104,7 +98,12 @@ public class StartFrame extends JPanel implements ActionListener {
             crystal4.adjustY(0.002f);
         }
 
-        g2d.drawImage((new ImageIcon("image/Title/title_light.png")).getImage(), -50, -50, this);
+        g.drawImage((new ImageIcon("image/Title/title_back.png")).getImage(), 0, 0, this);
+        crystal1.draw(g);
+        crystal2.draw(g);
+        crystal3.draw(g);
+        crystal4.draw(g);
+        g.drawImage((new ImageIcon("image/Title/title_light.png")).getImage(), -50, -50, this);
         newGame.repaint();
         load.repaint();
         exit.repaint();
