@@ -6,7 +6,12 @@ import java.awt.event.KeyListener;
 public class GameFrame extends JFrame implements KeyListener {
     static final int WIDTH = 1280;
     static final int HEIGHT = 720;
+    private boolean up = false;
+    private boolean right = false;
+    private boolean down = false;
+    private boolean left = false;
     private Ally Ally;
+    private GameMap gameMap = new GameMap(this);
 
     public GameFrame() {
         this.addKeyListener(this);
@@ -39,7 +44,33 @@ public class GameFrame extends JFrame implements KeyListener {
 
     public void paint(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        g.drawImage(new ImageIcon("image/white_bg.png").getImage(), 0, 0, this);
+
+        if (up) {
+            Ally.setRunning(true);
+            Ally.setDirection("up");
+            Ally.checkDirection();
+            Ally.setY(Ally.getY() - Ally.getSpeed());
+        }
+        if (right) {
+            Ally.setRunning(true);
+            Ally.setDirection("right");
+            Ally.checkDirection();
+            Ally.setX(Ally.getX() + Ally.getSpeed());
+        }
+        if (down) {
+            Ally.setRunning(true);
+            Ally.setDirection("down");
+            Ally.checkDirection();
+            Ally.setY(Ally.getY() + Ally.getSpeed());
+        }
+        if (left) {
+            Ally.setRunning(true);
+            Ally.setDirection("left");
+            Ally.checkDirection();
+            Ally.setX(Ally.getX() - Ally.getSpeed());
+        }
+
+        gameMap.getBg().draw(0, g);
         g2d.drawImage(Ally.getImg(), Ally.getX(), Ally.getY(), this);
 
     }
@@ -54,29 +85,18 @@ public class GameFrame extends JFrame implements KeyListener {
         char key = e.getKeyChar();
 
         if (key == 'w') {
-            Ally.setRunning(true);
-            Ally.setDirection("up");
-            Ally.checkDirection();
-            Ally.setY(Ally.getY() - Ally.getSpeed());
+            this.up = true;
         }
         if (key == 'd') {
-            Ally.setRunning(true);
-            Ally.setDirection("right");
-            Ally.checkDirection();
-            Ally.setX(Ally.getX() + Ally.getSpeed());
+            this.right = true;
         }
         if (key == 's') {
-            Ally.setRunning(true);
-            Ally.setDirection("down");
-            Ally.checkDirection();
-            Ally.setY(Ally.getY() + Ally.getSpeed());
+            this.down = true;
         }
         if (key == 'a') {
-            Ally.setRunning(true);
-            Ally.setDirection("left");
-            Ally.checkDirection();
-            Ally.setX(Ally.getX() - Ally.getSpeed());
+            this.left = true;
         }
+        Ally.checkDirection();
     }
 
     @Override
@@ -84,19 +104,21 @@ public class GameFrame extends JFrame implements KeyListener {
         char key = e.getKeyChar();
 
         if (key == 'w') {
-            Ally.setDirection("up");
+            this.up = false;
+            Ally.setRunning(false);
         }
         if (key == 'd') {
-            Ally.setDirection("right");
+            this.right = false;
+            Ally.setRunning(false);
         }
         if (key == 's') {
-            Ally.setDirection("down");
+            this.down = false;
+            Ally.setRunning(false);
         }
         if (key == 'a') {
-            Ally.setDirection("left");
+            this.left = false;
+            Ally.setRunning(false);
         }
-
-        Ally.setRunning(false);
         Ally.checkDirection();
     }
 }

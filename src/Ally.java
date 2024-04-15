@@ -23,7 +23,6 @@ public class Ally extends Thread {
         while (true) {
             if (isRunning) {
                 if (direction.equals("right")) {
-                    this.x += speed;
                 }
             }
         }
