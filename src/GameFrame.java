@@ -11,6 +11,8 @@ public class GameFrame extends JFrame implements KeyListener {
     private boolean down = false;
     private boolean left = false;
     private Ally Ally;
+    private Bullet bullet;
+    private boolean drawBullet;
     private GameMap gameMap = new GameMap(this);
 
     public GameFrame() {
@@ -72,6 +74,10 @@ public class GameFrame extends JFrame implements KeyListener {
 
         gameMap.getBg().draw(0, g);
         g2d.drawImage(Ally.getImg(), Ally.getX(), Ally.getY(), this);
+        if (drawBullet) {
+            g.drawImage(bullet.getImg(), Ally.getX() + 10, Ally.getY() + 10, this);
+            bullet.move();
+        }
 
     }
 
@@ -97,6 +103,11 @@ public class GameFrame extends JFrame implements KeyListener {
             this.left = true;
         }
         Ally.checkDirection();
+
+        if (key == 'j') {
+            drawBullet = true;
+            this.bullet = new Bullet(0, Ally);
+        }
     }
 
     @Override

@@ -21,10 +21,7 @@ public class Ally extends Thread {
     @Override
     public void run() {
         while (true) {
-            if (isRunning) {
-                if (direction.equals("right")) {
-                }
-            }
+
         }
     }
 
@@ -84,5 +81,9 @@ public class Ally extends Thread {
 
     public void setSpeed(int speed) {
         this.speed = speed;
+    }
+
+    public String getDirection() {
+        return direction;
     }
 }
