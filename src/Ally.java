@@ -2,9 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Ally extends Thread {
-    private Image img = (new ImageIcon("image/MainCharacter/Ally_d.gif")).getImage();
-    private int x;
-    private int y;
+    private Image img = (new ImageIcon("image/MainCharacter/Ally_r.png")).getImage();
+    private int x, y;
     private int speed;
     private String direction;
     private boolean isRunning;
@@ -12,9 +11,9 @@ public class Ally extends Thread {
 
     public Ally() {
         this.x = 32;
-        this.y = 40;
+        this.y = 600;
         this.speed = 4;
-        this.direction = "down";
+        this.direction = "right";
         this.rec = new Rectangle(x, y, img.getWidth(null), img.getWidth(null));
     }
 
