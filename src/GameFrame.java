@@ -2,17 +2,20 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class GameFrame extends JFrame implements KeyListener {
     static final int WIDTH = 1600;
     static final int HEIGHT = 960;
+    private long timePassed = 500;
+    private long startTime;
     private boolean up = false;
     private boolean right = false;
     private boolean down = false;
     private boolean left = false;
     private Ally Ally;
-    private Mob slime;
+    private ArrayList<Mob> mobs;
     private ArrayList<Bullet> bullets;
     private GameMap gameMap = new GameMap(this);
 
@@ -21,7 +24,8 @@ public class GameFrame extends JFrame implements KeyListener {
 
         //creates the main character
         Ally = new Ally();
-        slime = new Mob();
+
+        this.mobs = new ArrayList<Mob>();
         this.bullets = new ArrayList<Bullet>();
 
         this.setSize(WIDTH, HEIGHT);
@@ -32,9 +36,13 @@ public class GameFrame extends JFrame implements KeyListener {
         this.setResizable(false);
         this.setVisible(true);
 
-        Ally.start();
         Runnable r = () -> {
             while (true) {
+//                if ((int)(Math.random() * 100) + 1 > 50) {
+//                    int x =  (int) (Math.random() * 1500) + 50;
+//                    int y =  (int) (Math.random() * 900) + 50;
+//                    mobs.add(new Mob(x, y, 1, 2));
+//                }
                 this.repaint();
                 try {
                     Thread.sleep(20);
@@ -77,11 +85,13 @@ public class GameFrame extends JFrame implements KeyListener {
 
         gameMap.getBg().draw(0, g);
         g2d.drawImage(Ally.getImg(), Ally.getX(), Ally.getY(), this);
-        g2d.drawImage(slime.getImg(), slime.getX(), slime.getY(), this);
+        for (int i = 0; i < mobs.size(); i ++) {
+            g2d.drawImage(mobs.get(i).getImg(), mobs.get(i).getX(), mobs.get(i).getY(), this);
+        }
+
         for (int i = 0; i < bullets.size(); i++) {
             if (!bullets.get(i).isDead()) {
-                g.drawImage(bullets.get(i).getImg(), bullets.get(i).getX(), bullets.get(i).getY(), this);
-                bullets.get(i).move();
+                bullets.get(i).renderBullet(this, g2d);
                 if (bullets.get(i).getX() > 1520 || bullets.get(i).getX() < 0) {
                     bullets.remove(i).setDead(true);
                 } else if (bullets.get(i).getY() < 20 || bullets.get(i).getY() > 880) {
@@ -115,26 +125,34 @@ public class GameFrame extends JFrame implements KeyListener {
         Ally.checkDirection();
 
         if (key == 'j') {
-            Bullet bullet = new Bullet(0, Ally);
-            switch (this.Ally.getDirection()) {
-                case ("up") -> {
-                    bullet.setX(this.Ally.getX() + 15);
-                    bullet.setY(this.Ally.getY() - 30);
+            if (timePassed > 250) {
+                startTime = System.currentTimeMillis();
+                timePassed = 0;
+                Bullet bullet = new Bullet(0, Ally.getDirection());
+                switch (this.Ally.getDirection()) {
+                    case ("up") -> {
+                        bullet.setX(this.Ally.getX() + 15);
+                        bullet.setY(this.Ally.getY() - 30);
+                    }
+                    case ("right") -> {
+                        bullet.setX(this.Ally.getX() + 10);
+                        bullet.setY(this.Ally.getY() + 20);
+                    }
+                    case ("down") -> {
+                        bullet.setX(this.Ally.getX() + 15);
+                        bullet.setY(this.Ally.getY() + 30);
+                    }
+                    case ("left") -> {
+                        bullet.setX(this.Ally.getX() - 10);
+                        bullet.setY(this.Ally.getY() + 20);
+                    }
                 }
-                case ("right") -> {
-                    bullet.setX(this.Ally.getX() + 10);
-                    bullet.setY(this.Ally.getY() + 20);
-                }
-                case ("down") -> {
-                    bullet.setX(this.Ally.getX() + 15);
-                    bullet.setY(this.Ally.getY() + 30);
-                }
-                case ("left") -> {
-                    bullet.setX(this.Ally.getX() - 10);
-                    bullet.setY(this.Ally.getY() + 20);
-                }
+                bullets.add(bullet);
+            } else {
+                timePassed = System.currentTimeMillis() - startTime;
             }
-            bullets.add(bullet);
+        } else {
+            startTime = 500;
         }
     }
 

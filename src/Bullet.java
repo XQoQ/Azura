@@ -9,25 +9,23 @@ public class Bullet {
     private String direction;
     private Rectangle rect;
     private Image img = null;
-    private Ally Ally;
 
 
-    public Bullet(int ID, Ally Ally) {
+    public Bullet(int ID, String direction) {
         this.ID = ID;
         switch (this.ID) {
             case 0 -> this.speed = 10;
             case 1 -> this.speed = 8;
             default -> this.speed = 5;
         }
-        this.Ally = Ally;
-        this.direction = Ally.getDirection();
-        this.img = new ImageIcon("image/Bullet/weapon" + ID + "_" + Ally.getDirection().substring(0, 1) + "_" + 1 + ".png").getImage();
-        x = Ally.getX();
-        y = Ally.getY();
+        this.direction = direction;
+        this.img = new ImageIcon("image/Bullet/weapon" + ID + "_" + direction.substring(0, 1) + "_" + 1 + ".png").getImage();
+        this.x = 0;
+        this.y = 0;
         isDead = false;
     }
 
-    public void move() {
+    public void renderBullet(GameFrame gf, Graphics2D g2d) {
         if (direction.equalsIgnoreCase("up")) {
             y -= speed;
         }
@@ -40,6 +38,8 @@ public class Bullet {
         if (direction.equalsIgnoreCase("left")) {
             x -= speed;
         }
+        g2d.drawImage(img, x, y, gf);
+        g2d.drawRect(x, y, img.getWidth(null), img.getHeight(null));
     }
 
     public Image getImg() {

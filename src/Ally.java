@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class Ally extends Thread {
+public class Ally{
     private Image img = (new ImageIcon("image/MainCharacter/Ally_r.png")).getImage();
     private int x, y;
     private int speed;
@@ -15,13 +15,6 @@ public class Ally extends Thread {
         this.speed = 4;
         this.direction = "right";
         this.rec = new Rectangle(x, y, img.getWidth(null), img.getWidth(null));
-    }
-
-    @Override
-    public void run() {
-        while (true) {
-
-        }
     }
 
     public Image getImg() {return img;}

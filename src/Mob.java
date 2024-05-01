@@ -4,15 +4,21 @@ import java.awt.*;
 public class Mob {
     private int x, y;
     private int ID;
-    private String direction;
+    private int direction;
+    private Rectangle hitBox;
     private Image img = null;
 
-    public Mob() {
-        this.x = 32;
-        this.y = 600;
-        this.ID = 1;
-        this.direction = "d";
+    public Mob(int x, int y, int ID, int direction) {
+        this.x = x;
+        this.y = y;
+        this.ID = ID;
+        this.direction = direction;
         img = new ImageIcon("image/Mob/mob" + ID + "_" + direction + ".png").getImage();
+        this.hitBox = new Rectangle(x, y, img.getWidth(null), img.getHeight(null));
+    }
+
+    private void renderMob(GameFrame gf, Graphics2D g2d) {
+
     }
 
     public int getX() {
@@ -39,11 +45,11 @@ public class Mob {
         this.ID = ID;
     }
 
-    public String getDirection() {
+    public int getDirection() {
         return direction;
     }
 
-    public void setDirection(String direction) {
+    public void setDirection(int direction) {
         this.direction = direction;
     }
 
