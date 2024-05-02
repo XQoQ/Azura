@@ -7,6 +7,7 @@ public class Ally{
     private int speed;
     private String direction;
     private boolean isRunning;
+    private boolean up, right, down, left;
     private Rectangle rec;
 
     public Ally() {
@@ -43,12 +44,43 @@ public class Ally{
         }
     }
 
+    public void updateAlly() {
+        if (up) {
+            isRunning = true;
+            direction = "up";
+            y -= speed;
+        }
+        if (right) {
+            isRunning = true;
+            direction = "right";
+            x += speed;
+        }
+        if (down) {
+            isRunning = true;
+            direction = "down";
+            y += speed;
+        }
+        if (left) {
+            isRunning = true;
+            direction = "left";
+            x -= speed;
+        }
+        checkDirection();
+    }
+
+    public void renderAlly(GameFrame gf, Graphics2D g2d) {
+        rec.x = x;
+        rec.y = y;
+        g2d.drawImage(img, x, y, gf);
+    }
+
     public void setDirection(String d) {
         direction = d;
     }
 
     public void setRunning(boolean running) {
         isRunning = running;
+        checkDirection();
     }
 
     public int getX() {
@@ -77,5 +109,37 @@ public class Ally{
 
     public String getDirection() {
         return direction;
+    }
+
+    public boolean isUp() {
+        return up;
+    }
+
+    public void setUp(boolean up) {
+        this.up = up;
+    }
+
+    public boolean isRight() {
+        return right;
+    }
+
+    public void setRight(boolean right) {
+        this.right = right;
+    }
+
+    public boolean isDown() {
+        return down;
+    }
+
+    public void setDown(boolean down) {
+        this.down = down;
+    }
+
+    public boolean isLeft() {
+        return left;
+    }
+
+    public void setLeft(boolean left) {
+        this.left = left;
     }
 }

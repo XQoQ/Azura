@@ -22,6 +22,7 @@ public class Bullet {
         this.img = new ImageIcon("image/Bullet/weapon" + ID + "_" + direction.substring(0, 1) + "_" + 1 + ".png").getImage();
         this.x = 0;
         this.y = 0;
+        this.rect = new Rectangle(x, y, img.getWidth(null), img.getHeight(null));
         isDead = false;
     }
 
@@ -38,8 +39,9 @@ public class Bullet {
         if (direction.equalsIgnoreCase("left")) {
             x -= speed;
         }
+        rect.x = x;
+        rect.y = y;
         g2d.drawImage(img, x, y, gf);
-        g2d.drawRect(x, y, img.getWidth(null), img.getHeight(null));
     }
 
     public Image getImg() {
@@ -76,5 +78,9 @@ public class Bullet {
 
     public void setDead(boolean dead) {
         isDead = dead;
+    }
+
+    public Rectangle getRect() {
+        return rect;
     }
 }

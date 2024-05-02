@@ -17,8 +17,10 @@ public class Mob {
         this.hitBox = new Rectangle(x, y, img.getWidth(null), img.getHeight(null));
     }
 
-    private void renderMob(GameFrame gf, Graphics2D g2d) {
-
+    public void renderMob(GameFrame gf, Graphics2D g2d) {
+        hitBox.x = x;
+        hitBox.y = y;
+        g2d.drawImage(img, x, y, gf);
     }
 
     public int getX() {
@@ -57,4 +59,7 @@ public class Mob {
         return img;
     }
 
+    public Rectangle getHitBox() {
+        return hitBox;
+    }
 }
