@@ -38,7 +38,7 @@ public class GameFrame extends JFrame {
                 if ((int)(Math.random() * 100) + 1 == 1) {
                     int x =  (int) (Math.random() * 1500) + 50;
                     int y =  (int) (Math.random() * 900) + 50;
-                    mobs.add(new Mob(x, y, 1, 2));
+                    mobs.add(new Mob(x, y, 0, 2));
                 }
                 this.repaint();
                 try {
@@ -59,13 +59,16 @@ public class GameFrame extends JFrame {
         Ally.updateAlly();
         Ally.renderAlly(this, g2d);
         for (int i = 0; i < mobs.size(); i ++) {
-            mobs.get(i).renderMob(this, g2d);
+            if (mobs.get(i).getHp() > 0) {
+                mobs.get(i).renderMob(this, g2d);
+            }
         }
 
         for (int i = 0; i < bullets.size(); i++) {
             for (Mob m: mobs) {
                 if (bullets.get(i).getRect().intersects(m.getHitBox())) {
                     bullets.get(i).setDead(true);
+                    m.adjustHp(bullets.get(i).getAtk());
                 }
             }
             if (!bullets.get(i).isDead()) {

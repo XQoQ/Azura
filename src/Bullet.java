@@ -4,20 +4,22 @@ import java.awt.*;
 public class Bullet {
     private int ID;
     private int x, y;
+    private int atk;
     private int speed;
     private boolean isDead;
     private String direction;
     private Rectangle rect;
     private Image img = null;
+    private int[][] bulletList = {
+            //0atk 1speed
+            {10,    8} //arrow
+    };
 
 
     public Bullet(int ID, String direction) {
         this.ID = ID;
-        switch (this.ID) {
-            case 0 -> this.speed = 10;
-            case 1 -> this.speed = 8;
-            default -> this.speed = 5;
-        }
+        this.atk = bulletList[ID][0];
+        this.speed = bulletList[ID][1];
         this.direction = direction;
         this.img = new ImageIcon("image/Bullet/weapon" + ID + "_" + direction.substring(0, 1) + "_" + 1 + ".png").getImage();
         this.x = 0;
@@ -82,5 +84,17 @@ public class Bullet {
 
     public Rectangle getRect() {
         return rect;
+    }
+
+    public int getAtk() {
+        return atk;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public String getDirection() {
+        return direction;
     }
 }

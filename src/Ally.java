@@ -1,8 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+
+import static java.awt.image.BufferedImage.TYPE_INT_RGB;
 
 public class Ally{
     private Image img = (new ImageIcon("image/MainCharacter/Ally_r.png")).getImage();
+    private BufferedImage bf;
     private int x, y;
     private int speed;
     private String direction;
@@ -15,6 +19,7 @@ public class Ally{
         this.y = 600;
         this.speed = 4;
         this.direction = "right";
+        this.bf = new BufferedImage(img.getWidth(null), img.getHeight(null), TYPE_INT_RGB);
         this.rec = new Rectangle(x, y, img.getWidth(null), img.getWidth(null));
     }
 
