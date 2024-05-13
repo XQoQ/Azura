@@ -7,6 +7,7 @@ public class GamePanel extends JPanel {
     private ArrayList<Mob> mobs;
     private ArrayList<Bullet> bullets;
     public GamePanel() {
+        this.setFocusable(true);
         this.Ally = new Ally();
         this.mobs = new ArrayList<Mob>();
         this.bullets = new ArrayList<Bullet>();

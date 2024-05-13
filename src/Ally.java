@@ -8,6 +8,7 @@ public class Ally{
     private Image img = (new ImageIcon("image/MainCharacter/Ally_r.png")).getImage();
     private int x, y;
     private int speed;
+    private int hp, maxHp;
     private String direction;
     private boolean isRunning;
     private boolean up, right, down, left;
@@ -16,6 +17,8 @@ public class Ally{
     public Ally() {
         this.x = 32;
         this.y = 600;
+        this.hp = 100;
+        this.maxHp = 100;
         this.speed = 4;
         this.direction = "right";
         this.rec = new Rectangle(x, y, img.getWidth(null), img.getWidth(null));
@@ -75,6 +78,9 @@ public class Ally{
         rec.x = x;
         rec.y = y;
         g2d.drawImage(img, x, y, gf);
+
+        g2d.setColor(Color.GREEN);
+        g2d.fillRect(x - 5, y - 20, (int)(50 * (double) hp / maxHp), 10);
     }
 
     public void setDirection(String d) {
