@@ -5,13 +5,14 @@ public class Mob {
     private int x, y;
     private int ID;
     private int direction;
-    private int hp, hpLimit;
+    private int hp, maxHP;
+    private int attack;
     private int speed;
     private Rectangle hitBox;
     private Image img = null;
     private int[][] mobList = {
-            //0hp 1speed
-            {20,   1} // slime
+            //0hp 1attack 2speed
+            {20,      5   , 1} // slime
     };
 
     public Mob(int x, int y, int ID, int direction) {
@@ -20,17 +21,23 @@ public class Mob {
         this.ID = ID;
         this.direction = direction;
         this.hp = mobList[ID][0];
-        this.hpLimit = mobList[ID][0];
-        this.speed = mobList[ID][1];
+        this.maxHP = mobList[ID][0];
+        this.attack = mobList[ID][1];
+        this.speed = mobList[ID][2];
 
         img = new ImageIcon("image/Mob/mob" + ID + "_" + direction + ".png").getImage();
         this.hitBox = new Rectangle(x, y, img.getWidth(null), img.getHeight(null));
     }
 
-    public void renderMob(GameFrame gf, Graphics2D g2d) {
+    public void renderMob(GamePanel gf, Graphics2D g2d) {
         hitBox.x = x;
         hitBox.y = y;
         g2d.drawImage(img, x, y, gf);
+
+        g2d.setColor(Color.RED);
+        g2d.fillRect(x, y - 15, 32, 10);
+        g2d.setColor(Color.GREEN);
+        g2d.fillRect(x, y - 15, (int)(32 * (double) hp / maxHP), 10);
     }
 
     public int getX() {
@@ -79,5 +86,9 @@ public class Mob {
 
     public void adjustHp(int hp) {
         this.hp -= hp;
+    }
+
+    public int getAttack() {
+        return attack;
     }
 }

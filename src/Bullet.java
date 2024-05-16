@@ -28,7 +28,7 @@ public class Bullet {
         isDead = false;
     }
 
-    public void renderBullet(GameFrame gf, Graphics2D g2d) {
+    public void renderBullet(GamePanel gf, Graphics2D g2d) {
         if (direction.equalsIgnoreCase("up")) {
             y -= speed;
         }

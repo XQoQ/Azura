@@ -1,8 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-
-import static java.awt.image.BufferedImage.TYPE_INT_RGB;
 
 public class Ally{
     private Image img = (new ImageIcon("image/MainCharacter/Ally_r.png")).getImage();
@@ -74,13 +71,15 @@ public class Ally{
         checkDirection();
     }
 
-    public void renderAlly(GameFrame gf, Graphics2D g2d) {
+    public void renderAlly(GamePanel gp, Graphics2D g2d) {
         rec.x = x;
         rec.y = y;
-        g2d.drawImage(img, x, y, gf);
+        g2d.drawImage(img, x, y, gp);
 
+        g2d.setColor(Color.RED);
+        g2d.fillRect(x - 3, y - 20, 50, 10);
         g2d.setColor(Color.GREEN);
-        g2d.fillRect(x - 5, y - 20, (int)(50 * (double) hp / maxHp), 10);
+        g2d.fillRect(x - 3, y - 20, (int)(50 * (double) hp / maxHp), 10);
     }
 
     public void setDirection(String d) {
@@ -120,35 +119,39 @@ public class Ally{
         return direction;
     }
 
-    public boolean isUp() {
-        return up;
-    }
-
     public void setUp(boolean up) {
         this.up = up;
-    }
-
-    public boolean isRight() {
-        return right;
     }
 
     public void setRight(boolean right) {
         this.right = right;
     }
 
-    public boolean isDown() {
-        return down;
-    }
-
     public void setDown(boolean down) {
         this.down = down;
     }
 
-    public boolean isLeft() {
-        return left;
-    }
-
     public void setLeft(boolean left) {
         this.left = left;
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public void adjustHp(int hp) {
+        this.hp -= hp;
+    }
+
+    public int getMaxHp() {
+        return maxHp;
+    }
+
+    public void setMaxHp(int maxHp) {
+        this.maxHp = maxHp;
+    }
+
+    public Rectangle getRec() {
+        return rec;
     }
 }

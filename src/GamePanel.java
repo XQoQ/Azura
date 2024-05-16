@@ -3,22 +3,18 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class GamePanel extends JPanel {
-    private Ally Ally;
-    private ArrayList<Mob> mobs;
-    private ArrayList<Bullet> bullets;
+    private GameWorld gw;
+    private KeyHandler kl;
+
     public GamePanel() {
+        this.gw = new GameWorld();
+        this.kl = new KeyHandler(this);
+
         this.setFocusable(true);
-        this.Ally = new Ally();
-        this.mobs = new ArrayList<Mob>();
-        this.bullets = new ArrayList<Bullet>();
+        this.addKeyListener(kl);
 
         Runnable r = () -> {
             while (true) {
-                if ((int)(Math.random() * 100) + 1 == 1) {
-                    int x =  (int) (Math.random() * 1500) + 50;
-                    int y =  (int) (Math.random() * 900) + 50;
-                    mobs.add(new Mob(x, y, 0, 2));
-                }
                 this.repaint();
                 try {
                     Thread.sleep(20);
@@ -32,6 +28,18 @@ public class GamePanel extends JPanel {
     }
 
     public void paintComponent(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
 
+        gw.detectCollision();
+        gw.generateMob(0);
+
+        gw.drawBackground(g, 0);
+        gw.drawAlly(this, g2d);
+        gw.drawMob(this, g2d);
+        gw.drawBullet(this, g2d);
+    }
+
+    public GameWorld getGw() {
+        return gw;
     }
 }

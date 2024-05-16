@@ -1,11 +1,11 @@
 import java.awt.event.KeyEvent;
 public class KeyHandler implements java.awt.event.KeyListener {
-    private GameFrame gf;
+    private GamePanel gp;
     private long timePassed = 500;
     private long startTime;
 
-    public KeyHandler(GameFrame gf) {
-        this.gf = gf;
+    public KeyHandler(GamePanel gp) {
+        this.gp = gp;
     }
 
     public void keyTyped(KeyEvent e) {
@@ -17,42 +17,42 @@ public class KeyHandler implements java.awt.event.KeyListener {
         char key = e.getKeyChar();
 
         if (key == 'w') {
-            gf.getAlly().setUp(true);
+            gp.getGw().getAlly().setUp(true);
         }
         if (key == 'd') {
-            gf.getAlly().setRight(true);
+            gp.getGw().getAlly().setRight(true);
         }
         if (key == 's') {
-            gf.getAlly().setDown(true);
+            gp.getGw().getAlly().setDown(true);
         }
         if (key == 'a') {
-            gf.getAlly().setLeft(true);
+            gp.getGw().getAlly().setLeft(true);
         }
 
         if (key == 'j') {
             if (timePassed > 250) {
                 startTime = System.currentTimeMillis();
                 timePassed = 0;
-                Bullet bullet = new Bullet(0, gf.getAlly().getDirection());
-                switch (gf.getAlly().getDirection()) {
+                Bullet bullet = new Bullet(0, gp.getGw().getAlly().getDirection());
+                switch (gp.getGw().getAlly().getDirection()) {
                     case ("up") -> {
-                        bullet.setX(gf.getAlly().getX() + 15);
-                        bullet.setY(gf.getAlly().getY() - 30);
+                        bullet.setX(gp.getGw().getAlly().getX() + 15);
+                        bullet.setY(gp.getGw().getAlly().getY() - 30);
                     }
                     case ("right") -> {
-                        bullet.setX(gf.getAlly().getX() + 10);
-                        bullet.setY(gf.getAlly().getY() + 20);
+                        bullet.setX(gp.getGw().getAlly().getX() + 10);
+                        bullet.setY(gp.getGw().getAlly().getY() + 20);
                     }
                     case ("down") -> {
-                        bullet.setX(gf.getAlly().getX() + 15);
-                        bullet.setY(gf.getAlly().getY() + 30);
+                        bullet.setX(gp.getGw().getAlly().getX() + 15);
+                        bullet.setY(gp.getGw().getAlly().getY() + 30);
                     }
                     case ("left") -> {
-                        bullet.setX(gf.getAlly().getX() - 10);
-                        bullet.setY(gf.getAlly().getY() + 20);
+                        bullet.setX(gp.getGw().getAlly().getX() - 10);
+                        bullet.setY(gp.getGw().getAlly().getY() + 20);
                     }
                 }
-                gf.getBullets().add(bullet);
+                gp.getGw().getBullets().add(bullet);
             } else {
                 timePassed = System.currentTimeMillis() - startTime;
             }
@@ -66,20 +66,20 @@ public class KeyHandler implements java.awt.event.KeyListener {
         char key = e.getKeyChar();
 
         if (key == 'w') {
-            gf.getAlly().setUp(false);
-            gf.getAlly().setRunning(false);
+            gp.getGw().getAlly().setUp(false);
+            gp.getGw().getAlly().setRunning(false);
         }
         if (key == 'd') {
-            gf.getAlly().setRight(false);
-            gf.getAlly().setRunning(false);
+            gp.getGw().getAlly().setRight(false);
+            gp.getGw().getAlly().setRunning(false);
         }
         if (key == 's') {
-            gf.getAlly().setDown(false);
-            gf.getAlly().setRunning(false);
+            gp.getGw().getAlly().setDown(false);
+            gp.getGw().getAlly().setRunning(false);
         }
         if (key == 'a') {
-            gf.getAlly().setLeft(false);
-            gf.getAlly().setRunning(false);
+            gp.getGw().getAlly().setLeft(false);
+            gp.getGw().getAlly().setRunning(false);
         }
     }
 }
