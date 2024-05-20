@@ -25,25 +25,9 @@ public class Ally{
 
     public void checkDirection() {
         if (isRunning) {
-            if (direction.equals("down")) {
-                img = (new ImageIcon("image/MainCharacter/Ally_d.gif")).getImage();
-            } else if (direction.equals("left")) {
-                img = (new ImageIcon("image/MainCharacter/Ally_l.gif")).getImage();
-            } else if (direction.equals(("up"))) {
-                img = (new ImageIcon("image/MainCharacter/Ally_u.gif")).getImage();
-            } else if (direction.equals("right")) {
-                img = (new ImageIcon("image/MainCharacter/Ally_r.gif")).getImage();
-            }
+            img = (new ImageIcon("image/MainCharacter/Ally_" + direction.charAt(0) + ".gif")).getImage();
         } else {
-            if (direction.equals("down")) {
-                img = (new ImageIcon("image/MainCharacter/Ally_d.png")).getImage();
-            } else if (direction.equals("left")) {
-                img = (new ImageIcon("image/MainCharacter/Ally_l.png")).getImage();
-            } else if (direction.equals(("up"))) {
-                img = (new ImageIcon("image/MainCharacter/Ally_u.png")).getImage();
-            } else if (direction.equals("right")) {
-                img = (new ImageIcon("image/MainCharacter/Ally_r.png")).getImage();
-            }
+            img = (new ImageIcon("image/MainCharacter/Ally_" + direction.charAt(0) + ".png")).getImage();
         }
     }
 
@@ -153,5 +137,21 @@ public class Ally{
 
     public Rectangle getRec() {
         return rec;
+    }
+
+    public boolean isUp() {
+        return up;
+    }
+
+    public boolean isRight() {
+        return right;
+    }
+
+    public boolean isDown() {
+        return down;
+    }
+
+    public boolean isLeft() {
+        return left;
     }
 }

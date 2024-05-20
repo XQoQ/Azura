@@ -4,9 +4,11 @@ import java.util.ArrayList;
 public class GameWorld {
     private Ally Ally;
     private ArrayList<Mob> mobs;
-    private final int MAX_MOB_NUM = 5;
     private ArrayList<Bullet> bullets;
     private Background bg;
+    private KeyHandler kh;
+    private long timePassed = 1500;
+    private long startTime;
 
     public GameWorld() {
         this.Ally = new Ally();
@@ -24,6 +26,15 @@ public class GameWorld {
         this.Ally.renderAlly(gp, g2d);
     }
 
+    public boolean isAllyCollidingWithMob() {
+        for (Mob m: mobs) {
+            if (Ally.getRec().intersects(m.getHitBox())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     public ArrayList<Mob> getMobs() {
         return mobs;
@@ -38,6 +49,7 @@ public class GameWorld {
     }
 
     public void generateMob(int ID) {
+        final int MAX_MOB_NUM = 5;
         if ((int)(Math.random() * 10) + 1 == 1 && mobs.size() < MAX_MOB_NUM) {
             int x =  (int) (Math.random() * 1500) + 50;
             int y =  (int) (Math.random() * 900) + 50;
@@ -69,17 +81,27 @@ public class GameWorld {
         if (mobs.size() != 0) {
             for (Mob m: mobs) {
                 if (Ally.getRec().intersects(m.getHitBox())) {
-                    Ally.adjustHp(m.getAttack());
+                    if (timePassed > 1000) {
+                        startTime = System.currentTimeMillis();
+                        timePassed = 0;
+                        Ally.adjustHp(m.getAttack());
+                    } else {
+                        timePassed = System.currentTimeMillis() - startTime;
+                    }
                 }
             }
         }
 
         if (bullets.size() != 0) {
             for (int i = 0; i < bullets.size(); i++) {
-                for (Mob m : mobs) {
-                    if (bullets.get(i).getRect().intersects(m.getHitBox())) {
+                for (int j = 0; j < mobs.size(); j++) {
+                    if (bullets.get(i).getRect().intersects(mobs.get(j).getHitBox())) {
                         bullets.get(i).setDead(true);
-                        m.adjustHp(bullets.get(i).getAtk());
+                        mobs.get(j).adjustHp(bullets.get(i).getAtk());
+                        if (mobs.get(j).getHp() <= 0) {
+                            mobs.remove(j);
+                            j--;
+                        }
                     }
                 }
             }

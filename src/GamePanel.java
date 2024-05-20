@@ -4,14 +4,14 @@ import java.util.ArrayList;
 
 public class GamePanel extends JPanel {
     private GameWorld gw;
-    private KeyHandler kl;
+    private KeyHandler kh;
 
     public GamePanel() {
         this.gw = new GameWorld();
-        this.kl = new KeyHandler(this);
+        this.kh = new KeyHandler(this);
 
         this.setFocusable(true);
-        this.addKeyListener(kl);
+        this.addKeyListener(kh);
 
         Runnable r = () -> {
             while (true) {

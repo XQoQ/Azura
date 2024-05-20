@@ -17,16 +17,32 @@ public class KeyHandler implements java.awt.event.KeyListener {
         char key = e.getKeyChar();
 
         if (key == 'w') {
-            gp.getGw().getAlly().setUp(true);
+            if (gp.getGw().getAlly().getDirection().equals("up") && gp.getGw().isAllyCollidingWithMob()) {
+                gp.getGw().getAlly().setUp(false);
+            } else {
+                gp.getGw().getAlly().setUp(true);
+            }
         }
         if (key == 'd') {
-            gp.getGw().getAlly().setRight(true);
+            if (gp.getGw().getAlly().getDirection().equals("right") && gp.getGw().isAllyCollidingWithMob()) {
+                gp.getGw().getAlly().setRight(false);
+            } else {
+                gp.getGw().getAlly().setRight(true);
+            }
         }
         if (key == 's') {
-            gp.getGw().getAlly().setDown(true);
+            if (gp.getGw().getAlly().getDirection().equals("down") && gp.getGw().isAllyCollidingWithMob()) {
+                gp.getGw().getAlly().setDown(false);
+            } else {
+                gp.getGw().getAlly().setDown(true);
+            }
         }
         if (key == 'a') {
-            gp.getGw().getAlly().setLeft(true);
+            if (gp.getGw().getAlly().getDirection().equals("left") && gp.getGw().isAllyCollidingWithMob()) {
+                gp.getGw().getAlly().setLeft(false);
+            } else {
+                gp.getGw().getAlly().setLeft(true);
+            }
         }
 
         if (key == 'j') {
@@ -81,5 +97,18 @@ public class KeyHandler implements java.awt.event.KeyListener {
             gp.getGw().getAlly().setLeft(false);
             gp.getGw().getAlly().setRunning(false);
         }
+
+//        if (gp.getGw().getAlly().isUp()) {
+//            gp.getGw().getAlly().setDirection("up");
+//        }
+//        if (gp.getGw().getAlly().isRight()) {
+//            gp.getGw().getAlly().setDirection("right");
+//        }
+//        if (gp.getGw().getAlly().isDown()) {
+//            gp.getGw().getAlly().setDirection("down");
+//        }
+//        if (gp.getGw().getAlly().isLeft()) {
+//            gp.getGw().getAlly().setDirection("left");
+//        }
     }
 }
