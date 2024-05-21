@@ -1,4 +1,6 @@
+import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class GameWorld {
@@ -6,9 +8,9 @@ public class GameWorld {
     private ArrayList<Mob> mobs;
     private ArrayList<Bullet> bullets;
     private Background bg;
-    private KeyHandler kh;
     private long timePassed = 1500;
     private long startTime;
+    private Image hitEffect = (new ImageIcon("image/Effect/ef0.gif")).getImage();
 
     public GameWorld() {
         this.Ally = new Ally();
@@ -77,7 +79,7 @@ public class GameWorld {
         }
     }
 
-    public void detectCollision() {
+    public void detectCollision(GamePanel gp, Graphics2D g2d) {
         if (mobs.size() != 0) {
             for (Mob m: mobs) {
                 if (Ally.getRec().intersects(m.getHitBox())) {
@@ -96,6 +98,7 @@ public class GameWorld {
             for (int i = 0; i < bullets.size(); i++) {
                 for (int j = 0; j < mobs.size(); j++) {
                     if (bullets.get(i).getRect().intersects(mobs.get(j).getHitBox())) {
+                        drawHitEffect(gp, g2d, bullets.get(i).getX(), bullets.get(i).getY());
                         bullets.get(i).setDead(true);
                         mobs.get(j).adjustHp(bullets.get(i).getAtk());
                         if (mobs.get(j).getHp() <= 0) {
@@ -106,6 +109,10 @@ public class GameWorld {
                 }
             }
         }
+    }
+
+    private void drawHitEffect(GamePanel gp, Graphics2D g2d, int x, int y) {
+        g2d.drawImage(hitEffect, x, y, gp);
     }
 
     public Background getBg() {

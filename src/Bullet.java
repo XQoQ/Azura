@@ -28,7 +28,7 @@ public class Bullet {
         isDead = false;
     }
 
-    public void renderBullet(GamePanel gf, Graphics2D g2d) {
+    public void renderBullet(GamePanel gp, Graphics2D g2d) {
         if (direction.equalsIgnoreCase("up")) {
             y -= speed;
         }
@@ -43,7 +43,7 @@ public class Bullet {
         }
         rect.x = x;
         rect.y = y;
-        g2d.drawImage(img, x, y, gf);
+        g2d.drawImage(img, x, y, gp);
     }
 
     public Image getImg() {
