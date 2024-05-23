@@ -7,15 +7,19 @@ public class GameWorld {
     private Ally Ally;
     private ArrayList<Mob> mobs;
     private ArrayList<Bullet> bullets;
+    private ArrayList<Effect> effects;
     private Background bg;
     private long timePassed = 1500;
     private long startTime;
-    private Image hitEffect = (new ImageIcon("image/Effect/ef0.gif")).getImage();
+    private ArrayList<Long> effectStartTime;
+    private Image hitEffect = (new ImageIcon("image/Mob/mob0_2.png")).getImage();
 
     public GameWorld() {
         this.Ally = new Ally();
         this.mobs = new ArrayList<Mob>();
         this.bullets = new ArrayList<Bullet>();
+        this.effects = new ArrayList<Effect>();
+        this.effectStartTime = new ArrayList<Long>();
         this.bg = new Background();
     }
 
@@ -98,7 +102,7 @@ public class GameWorld {
             for (int i = 0; i < bullets.size(); i++) {
                 for (int j = 0; j < mobs.size(); j++) {
                     if (bullets.get(i).getRect().intersects(mobs.get(j).getHitBox())) {
-                        drawHitEffect(gp, g2d, bullets.get(i).getX(), bullets.get(i).getY());
+                        effects.add(new Effect(bullets.get(i).getID(), bullets.get(i).getX(), bullets.get(i).getY()));
                         bullets.get(i).setDead(true);
                         mobs.get(j).adjustHp(bullets.get(i).getAtk());
                         if (mobs.get(j).getHp() <= 0) {
@@ -111,8 +115,28 @@ public class GameWorld {
         }
     }
 
-    private void drawHitEffect(GamePanel gp, Graphics2D g2d, int x, int y) {
-        g2d.drawImage(hitEffect, x, y, gp);
+    public void drawHitEffect(GamePanel gp, Graphics2D g2d) {
+        if (effects.size() != 0) {
+            for (int i = 0; i < effects.size(); i++) {
+                effectStartTime.add(0L);
+            }
+
+            for (int i = 0; i < effects.size(); i ++) {
+                if (effectStartTime.get(i) == 0) {
+                    effectStartTime.set(i, System.currentTimeMillis());
+                }
+                effects.get(i).setTimePassed(0);
+
+                if (effects.get(i).getTimePassed() - effectStartTime.get(i) < effects.get(i).getLifespan()) {
+                    effects.get(i).renderEffect(gp, g2d);
+                    effects.get(i).setTimePassed(System.currentTimeMillis() - effectStartTime.get(i));
+                } else {
+                    effects.remove(i);
+                    effectStartTime.remove(i);
+                    i--;
+                }
+            }
+        }
     }
 
     public Background getBg() {

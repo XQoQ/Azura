@@ -30,12 +30,13 @@ public class GamePanel extends JPanel {
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
 
-        gw.detectCollision(this, g2d);
         gw.generateMob(0);
         gw.drawBackground(g, 0);
+        gw.detectCollision(this, g2d);
         gw.drawAlly(this, g2d);
         gw.drawMob(this, g2d);
         gw.drawBullet(this, g2d);
+        gw.drawHitEffect(this, g2d);
     }
 
     public GameWorld getGw() {
