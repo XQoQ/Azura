@@ -124,13 +124,16 @@ public class GameWorld {
             for (int i = 0; i < effects.size(); i ++) {
                 if (effectStartTime.get(i) == 0) {
                     effectStartTime.set(i, System.currentTimeMillis());
+                    effects.get(i).setTimePassed(0);
                 }
-                effects.get(i).setTimePassed(0);
 
-                if (effects.get(i).getTimePassed() - effectStartTime.get(i) < effects.get(i).getLifespan()) {
+                effects.get(i).setTimePassed(System.currentTimeMillis() - effectStartTime.get(i));
+
+                if (System.currentTimeMillis() + effects.get(i).getTimePassed() - effectStartTime.get(i) < effects.get(i).getLifespan()) {
                     effects.get(i).renderEffect(gp, g2d);
-                    effects.get(i).setTimePassed(System.currentTimeMillis() - effectStartTime.get(i));
                 } else {
+                    effects.get(i).setX(-100000000);
+                    effects.get(i).setY(-100000000);
                     effects.remove(i);
                     effectStartTime.remove(i);
                     i--;
