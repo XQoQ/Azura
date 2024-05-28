@@ -49,7 +49,7 @@ public class KeyHandler implements java.awt.event.KeyListener {
             if (timePassed > 250) {
                 startTime = System.currentTimeMillis();
                 timePassed = 0;
-                Bullet bullet = new Bullet(0, gp.getGw().getAlly().getDirection());
+                Bullet bullet = new Bullet(gp.getGw().getAlly().getWp().getID(), gp.getGw().getAlly().getDirection());
                 switch (gp.getGw().getAlly().getDirection()) {
                     case ("up") -> {
                         bullet.setX(gp.getGw().getAlly().getX() + 15);

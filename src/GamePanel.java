@@ -1,12 +1,13 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class GamePanel extends JPanel {
     private GameWorld gw;
     private KeyHandler kh;
 
-    public GamePanel() {
+    public GamePanel() throws IOException {
         this.gw = new GameWorld();
         this.kh = new KeyHandler(this);
 
@@ -32,10 +33,15 @@ public class GamePanel extends JPanel {
 
         gw.generateMob(0);
         gw.drawBackground(g, 0);
-        gw.detectCollision(this, g2d);
+        try {
+            gw.detectCollision(this, g2d);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         gw.drawAlly(this, g2d);
         gw.drawMob(this, g2d);
         gw.drawBullet(this, g2d);
+        gw.drawItem(this, g2d);
         gw.drawHitEffect(this, g2d);
     }
 

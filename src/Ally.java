@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 public class Ally{
     private Image img = (new ImageIcon("image/MainCharacter/Ally_r.png")).getImage();
@@ -10,14 +11,16 @@ public class Ally{
     private boolean isRunning;
     private boolean up, right, down, left;
     private Rectangle rec;
+    private Weapon wp;
 
-    public Ally() {
+    public Ally() throws IOException {
         this.x = 32;
         this.y = 600;
         this.hp = 100;
         this.maxHp = 100;
         this.speed = 4;
         this.direction = "right";
+        this.wp = new Weapon(0);
         this.rec = new Rectangle(x, y, img.getWidth(null), img.getWidth(null));
     }
 
@@ -153,5 +156,9 @@ public class Ally{
 
     public boolean isLeft() {
         return left;
+    }
+
+    public Weapon getWp() {
+        return wp;
     }
 }

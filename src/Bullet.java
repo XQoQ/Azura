@@ -6,13 +6,13 @@ public class Bullet {
     private int x, y;
     private int atk;
     private int speed;
-    private boolean isDead;
     private String direction;
     private Rectangle rect;
-    private Image img = null;
+    private Image img;
     private int[][] bulletList = {
             //0atk 1speed
-            {10,    8} //arrow
+            {10,    8}, //arrow
+            {20,    6}
     };
 
 
@@ -25,7 +25,6 @@ public class Bullet {
         this.x = 0;
         this.y = 0;
         this.rect = new Rectangle(x, y, img.getWidth(null), img.getHeight(null));
-        isDead = false;
     }
 
     public void renderBullet(GamePanel gp, Graphics2D g2d) {
@@ -72,14 +71,6 @@ public class Bullet {
 
     public void setY(int y) {
         this.y = y;
-    }
-
-    public boolean isDead() {
-        return isDead;
-    }
-
-    public void setDead(boolean dead) {
-        isDead = dead;
     }
 
     public Rectangle getRect() {

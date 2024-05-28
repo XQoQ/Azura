@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class GameFrame extends JFrame {
@@ -11,7 +12,7 @@ public class GameFrame extends JFrame {
     private boolean down = false;
     private boolean left = false;
 
-    public GameFrame() {
+    public GameFrame() throws IOException {
         GamePanel gp = new GamePanel();
 
         this.setSize(WIDTH, HEIGHT);

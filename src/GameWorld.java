@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class GameWorld {
@@ -8,18 +9,18 @@ public class GameWorld {
     private ArrayList<Mob> mobs;
     private ArrayList<Bullet> bullets;
     private ArrayList<Effect> effects;
+    private ArrayList<Item> items;
     private Background bg;
     private long timePassed = 1500;
     private long startTime;
-    private ArrayList<Long> effectStartTime;
     private Image hitEffect = (new ImageIcon("image/Mob/mob0_2.png")).getImage();
 
-    public GameWorld() {
+    public GameWorld() throws IOException {
         this.Ally = new Ally();
         this.mobs = new ArrayList<Mob>();
         this.bullets = new ArrayList<Bullet>();
         this.effects = new ArrayList<Effect>();
-        this.effectStartTime = new ArrayList<Long>();
+        this.items = new ArrayList<Item>();
         this.bg = new Background();
     }
 
@@ -63,27 +64,29 @@ public class GameWorld {
         }
     }
 
+    public void drawItem(GamePanel gp, Graphics2D g2d) {
+        for (int i = 0; i < items.size(); i++) {
+            items.get(i).renderItem(gp, g2d);
+        }
+    }
     public ArrayList<Bullet> getBullets() {
         return bullets;
     }
 
     public void drawBullet(GamePanel gp, Graphics2D g2d) {
         for (int i = 0; i < bullets.size(); i++) {
-            if (!bullets.get(i).isDead()) {
-                bullets.get(i).renderBullet(gp, g2d);
-                if (bullets.get(i).getX() > 1520 || bullets.get(i).getX() < 0) {
-                    bullets.remove(i).setDead(true);
-                } else if (bullets.get(i).getY() < 20 || bullets.get(i).getY() > 880) {
-                    bullets.remove(i).setDead(true);
-                }
-            } else {
+            bullets.get(i).renderBullet(gp, g2d);
+            if (bullets.get(i).getX() > 1520 || bullets.get(i).getX() < 0) {
+                bullets.remove(i);
+                i--;
+            } else if (bullets.get(i).getY() < 20 || bullets.get(i).getY() > 880) {
                 bullets.remove(i);
                 i--;
             }
         }
     }
 
-    public void detectCollision(GamePanel gp, Graphics2D g2d) {
+    public void detectCollision(GamePanel gp, Graphics2D g2d) throws IOException {
         if (mobs.size() != 0) {
             for (Mob m: mobs) {
                 if (Ally.getRec().intersects(m.getHitBox())) {
@@ -101,11 +104,16 @@ public class GameWorld {
         if (bullets.size() != 0) {
             for (int i = 0; i < bullets.size(); i++) {
                 for (int j = 0; j < mobs.size(); j++) {
-                    if (bullets.get(i).getRect().intersects(mobs.get(j).getHitBox())) {
-                        effects.add(new Effect(bullets.get(i).getID(), bullets.get(i).getX(), bullets.get(i).getY()));
-                        bullets.get(i).setDead(true);
+                    if (bullets.size() != 0 && bullets.get(i).getRect().intersects(mobs.get(j).getHitBox())) {
+                        effects.add(new Effect(bullets.get(i).getID(), bullets.get(i).getX(), bullets.get(i).getY(), bullets.get(i).getDirection(), System.currentTimeMillis()));
                         mobs.get(j).adjustHp(bullets.get(i).getAtk());
+                        bullets.remove(i);
+                        i--;
                         if (mobs.get(j).getHp() <= 0) {
+                            if ((int)(Math.random() * 10) + 1 < 4) {
+                                Item item = new Weapon(mobs.get(j).getX(), mobs.get(j).getY(), 0);
+                                items.add(item);
+                            }
                             mobs.remove(j);
                             j--;
                         }
@@ -113,29 +121,28 @@ public class GameWorld {
                 }
             }
         }
+
+        if (items.size() != 0) {
+            for (int i = 0; i < items.size(); i++) {
+                if (Ally.getRec().intersects(items.get(i).getRect())) {
+                    drawPickUpText(gp, g2d, items.get(i));
+                }
+            }
+        }
+    }
+
+    private void drawPickUpText(GamePanel gp, Graphics2D g2d, Item i) {
+        g2d.drawString("Press E to pick up", i.getX(), i.getY());
     }
 
     public void drawHitEffect(GamePanel gp, Graphics2D g2d) {
         if (effects.size() != 0) {
-            for (int i = 0; i < effects.size(); i++) {
-                effectStartTime.add(0L);
-            }
-
             for (int i = 0; i < effects.size(); i ++) {
-                if (effectStartTime.get(i) == 0) {
-                    effectStartTime.set(i, System.currentTimeMillis());
-                    effects.get(i).setTimePassed(0);
-                }
-
-                effects.get(i).setTimePassed(System.currentTimeMillis() - effectStartTime.get(i));
-
-                if (System.currentTimeMillis() + effects.get(i).getTimePassed() - effectStartTime.get(i) < effects.get(i).getLifespan()) {
+                effects.get(i).setTimePassed(System.currentTimeMillis() - effects.get(i).getStartTime());
+                if (System.currentTimeMillis() + effects.get(i).getTimePassed() - effects.get(i).getStartTime() < effects.get(i).getLifespan()) {
                     effects.get(i).renderEffect(gp, g2d);
                 } else {
-                    effects.get(i).setX(-100000000);
-                    effects.get(i).setY(-100000000);
                     effects.remove(i);
-                    effectStartTime.remove(i);
                     i--;
                 }
             }

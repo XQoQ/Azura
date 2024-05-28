@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class StartFrame extends JPanel implements ActionListener {
     private int count = 0;
@@ -113,7 +114,11 @@ public class StartFrame extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == newGame) {
             jf.dispose();
-            GameFrame gf = new GameFrame();
+            try {
+                GameFrame gf = new GameFrame();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         }
         if (e.getSource() == exit) {
             System.exit(0);
