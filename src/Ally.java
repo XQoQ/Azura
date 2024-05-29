@@ -20,7 +20,7 @@ public class Ally{
         this.maxHp = 100;
         this.speed = 4;
         this.direction = "right";
-        this.wp = new Weapon(0);
+        this.wp = new Weapon(-100, -100, 0);
         this.rec = new Rectangle(x, y, img.getWidth(null), img.getWidth(null));
     }
 
@@ -160,5 +160,9 @@ public class Ally{
 
     public Weapon getWp() {
         return wp;
+    }
+
+    public void setWp(Weapon wp) {
+        this.wp = wp;
     }
 }

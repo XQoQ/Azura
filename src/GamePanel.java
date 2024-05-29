@@ -40,7 +40,11 @@ public class GamePanel extends JPanel {
         }
         gw.drawAlly(this, g2d);
         gw.drawMob(this, g2d);
-        gw.drawBullet(this, g2d);
+        try {
+            gw.drawBullet(this, g2d);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         gw.drawItem(this, g2d);
         gw.drawHitEffect(this, g2d);
     }

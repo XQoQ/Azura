@@ -52,20 +52,20 @@ public class KeyHandler implements java.awt.event.KeyListener {
                 Bullet bullet = new Bullet(gp.getGw().getAlly().getWp().getID(), gp.getGw().getAlly().getDirection());
                 switch (gp.getGw().getAlly().getDirection()) {
                     case ("up") -> {
-                        bullet.setX(gp.getGw().getAlly().getX() + 15);
-                        bullet.setY(gp.getGw().getAlly().getY() - 30);
+                        bullet.setX(gp.getGw().getAlly().getX() + gp.getGw().getAlly().getImg().getWidth(null) / 2 - bullet.getImg().getWidth(null) / 2);
+                        bullet.setY(gp.getGw().getAlly().getY() + gp.getGw().getAlly().getImg().getHeight(null) / 2 - bullet.getImg().getHeight(null));
                     }
                     case ("right") -> {
-                        bullet.setX(gp.getGw().getAlly().getX() + 10);
-                        bullet.setY(gp.getGw().getAlly().getY() + 20);
+                        bullet.setX(gp.getGw().getAlly().getX() + gp.getGw().getAlly().getImg().getWidth(null) / 2);
+                        bullet.setY(gp.getGw().getAlly().getY() + gp.getGw().getAlly().getImg().getHeight(null) / 2 - bullet.getImg().getHeight(null) / 2);
                     }
                     case ("down") -> {
-                        bullet.setX(gp.getGw().getAlly().getX() + 15);
-                        bullet.setY(gp.getGw().getAlly().getY() + 30);
+                        bullet.setX(gp.getGw().getAlly().getX() + gp.getGw().getAlly().getImg().getWidth(null) / 2 - bullet.getImg().getWidth(null) / 2);
+                        bullet.setY(gp.getGw().getAlly().getY() + gp.getGw().getAlly().getImg().getHeight(null) / 2);
                     }
                     case ("left") -> {
-                        bullet.setX(gp.getGw().getAlly().getX() - 10);
-                        bullet.setY(gp.getGw().getAlly().getY() + 20);
+                        bullet.setX(gp.getGw().getAlly().getX() - bullet.getImg().getWidth(null));
+                        bullet.setY(gp.getGw().getAlly().getY() + gp.getGw().getAlly().getImg().getHeight(null) / 2 - bullet.getImg().getHeight(null) / 2);
                     }
                 }
                 gp.getGw().getBullets().add(bullet);
@@ -74,6 +74,10 @@ public class KeyHandler implements java.awt.event.KeyListener {
             }
         } else {
             startTime = 500;
+        }
+
+        if (gp.getGw().isAllyCollidingWithAnItem() && key == 'e') {
+            gp.getGw().swapWeapon();
         }
     }
 

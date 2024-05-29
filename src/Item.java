@@ -28,6 +28,7 @@ public class Item {
 
     public void setX(int x) {
         this.x = x;
+        updateRect();
     }
 
     public int getY() {
@@ -36,6 +37,7 @@ public class Item {
 
     public void setY(int y) {
         this.y = y;
+        updateRect();
     }
 
     public Image getImg() {
@@ -52,5 +54,10 @@ public class Item {
 
     public void setRect(Rectangle rect) {
         this.rect = rect;
+    }
+
+    private void updateRect() {
+        rect.x = this.x;
+        rect.y = this.y;
     }
 }

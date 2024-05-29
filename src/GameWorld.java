@@ -73,7 +73,7 @@ public class GameWorld {
         return bullets;
     }
 
-    public void drawBullet(GamePanel gp, Graphics2D g2d) {
+    public void drawBullet(GamePanel gp, Graphics2D g2d) throws IOException {
         for (int i = 0; i < bullets.size(); i++) {
             bullets.get(i).renderBullet(gp, g2d);
             if (bullets.get(i).getX() > 1520 || bullets.get(i).getX() < 0) {
@@ -110,8 +110,8 @@ public class GameWorld {
                         bullets.remove(i);
                         i--;
                         if (mobs.get(j).getHp() <= 0) {
-                            if ((int)(Math.random() * 10) + 1 < 4) {
-                                Item item = new Weapon(mobs.get(j).getX(), mobs.get(j).getY(), 0);
+                            if ((int)(Math.random() * 10) + 1 < 20) {
+                                Item item = new Weapon(mobs.get(j).getX(), mobs.get(j).getY(), 1);
                                 items.add(item);
                             }
                             mobs.remove(j);
@@ -124,15 +124,40 @@ public class GameWorld {
 
         if (items.size() != 0) {
             for (int i = 0; i < items.size(); i++) {
-                if (Ally.getRec().intersects(items.get(i).getRect())) {
-                    drawPickUpText(gp, g2d, items.get(i));
+                if (items.get(i) instanceof Weapon) {
+                    if (Ally.getRec().intersects(items.get(i).getRect())) {
+                        drawPickUpText(gp, g2d, items.get(i));
+                    }
                 }
             }
         }
     }
 
+    public boolean isAllyCollidingWithAnItem() {
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i) instanceof Weapon && Ally.getRec().intersects(items.get(i).getRect())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void swapWeapon() {
+        for (int i = 0; i < items.size(); i++) {
+            if (items.get(i) instanceof Weapon && Ally.getRec().intersects(items.get(i).getRect())) {
+                Weapon tem = Ally.getWp();
+                tem.setX(items.get(i).getX());
+                tem.setY(items.get(i).getY());
+                Ally.setWp((Weapon) items.get(i));
+                items.set(i, tem);
+            }
+        }
+    }
+
     private void drawPickUpText(GamePanel gp, Graphics2D g2d, Item i) {
-        g2d.drawString("Press E to pick up", i.getX(), i.getY());
+        g2d.setColor(Color.WHITE);
+        g2d.drawString("\"E\" Pick Up", i.getX() - (int) i.getRect().getWidth() / 2, i.getY());
     }
 
     public void drawHitEffect(GamePanel gp, Graphics2D g2d) {
