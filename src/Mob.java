@@ -12,7 +12,7 @@ public class Mob {
     private Image img = null;
     private int[][] mobList = {
             //0hp 1attack 2speed
-            {20,      5   , 1} // slime
+            {100,      5   , 4} // slime
     };
 
     public Mob(int x, int y, int ID, int direction) {
@@ -44,16 +44,16 @@ public class Mob {
         return x;
     }
 
-    public void setX(int x) {
-        this.x = x;
+    public void adjustX(int x) {
+        this.x += x;
     }
 
     public int getY() {
         return y;
     }
 
-    public void setY(int y) {
-        this.y = y;
+    public void adjustY(int y) {
+        this.y += y;
     }
 
     public int getID() {
@@ -90,5 +90,9 @@ public class Mob {
 
     public int getAttack() {
         return attack;
+    }
+
+    public int getSpeed() {
+        return speed;
     }
 }

@@ -1,4 +1,3 @@
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -65,7 +64,7 @@ public class StartFrame extends JPanel implements ActionListener {
                 if (count < 50) {
                     count++;
                     stepping = true;
-                } else if (count >= 50) {
+                } else {
                     count++;
                     stepping = false;
                 }

@@ -9,14 +9,15 @@ public class Bullet {
     private int x, y;
     private int atk;
     private int speed;
+    private int disappearOnContact;
     private long startTime, timePassed, frameNumber;
     private String direction;
     private Rectangle rect;
     private Image img;
     private int[][] bulletList = {
-            //0atk 1speed
-            {10,    8}, //arrow
-            {20,    6}
+            //0atk 1speed 2disappearOnContact
+            {10,    10,    1}, //arrow
+            {20,    15,    0}  //frost arrow
     };
 
 
@@ -24,6 +25,7 @@ public class Bullet {
         this.ID = ID;
         this.atk = bulletList[ID][0];
         this.speed = bulletList[ID][1];
+        this.disappearOnContact = bulletList[ID][2];
         this.direction = direction;
         this.img = new ImageIcon("image/Bullet/Weapon" + ID + "/weapon" + ID + "_" + direction.substring(0, 1) + "_" + 1 + ".png").getImage();
         this.x = 0;
@@ -111,5 +113,9 @@ public class Bullet {
 
     public String getDirection() {
         return direction;
+    }
+
+    public int getDisappearOnContact() {
+        return disappearOnContact;
     }
 }

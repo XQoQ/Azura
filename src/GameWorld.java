@@ -90,7 +90,7 @@ public class GameWorld {
         if (mobs.size() != 0) {
             for (Mob m: mobs) {
                 if (Ally.getRec().intersects(m.getHitBox())) {
-                    if (timePassed > 1000) {
+                    if (timePassed > 500) {
                         startTime = System.currentTimeMillis();
                         timePassed = 0;
                         Ally.adjustHp(m.getAttack());
@@ -101,14 +101,19 @@ public class GameWorld {
             }
         }
 
-        if (bullets.size() != 0) {
+        if (!bullets.isEmpty()) {
             for (int i = 0; i < bullets.size(); i++) {
                 for (int j = 0; j < mobs.size(); j++) {
-                    if (bullets.size() != 0 && bullets.get(i).getRect().intersects(mobs.get(j).getHitBox())) {
+                    if (!bullets.isEmpty() && bullets.get(i).getRect().intersects(mobs.get(j).getHitBox())) {
                         effects.add(new Effect(bullets.get(i).getID(), bullets.get(i).getX(), bullets.get(i).getY(), bullets.get(i).getDirection(), System.currentTimeMillis()));
                         mobs.get(j).adjustHp(bullets.get(i).getAtk());
-                        bullets.remove(i);
-                        i--;
+                        if (bullets.get(i).getDisappearOnContact() == 1) {
+                            bullets.remove(i);
+                            i--;
+                        }
+                        if (i == -1) {
+                            i = 0;
+                        }
                         if (mobs.get(j).getHp() <= 0) {
                             if ((int)(Math.random() * 10) + 1 < 20) {
                                 Item item = new Weapon(mobs.get(j).getX(), mobs.get(j).getY(), 1);
@@ -180,6 +185,26 @@ public class GameWorld {
 
     public void drawBackground(Graphics g, int ID) {
         this.bg.draw(ID, g);
+    }
+
+    public void checkRadius() {
+        for (int i = 0; i < mobs.size(); i++) {
+            int mobX = mobs.get(i).getX() + mobs.get(i).getImg().getWidth(null) / 2;
+            int mobY = mobs.get(i).getY() + mobs.get(i).getImg().getHeight(null) / 2;
+            int AllyX = Ally.getX() + Ally.getImg().getWidth(null) / 2;
+            int AllyY = Ally.getY() + Ally.getImg().getHeight(null) / 2;
+            int dX = AllyX - mobX;
+            int dY = AllyY - mobY;
+            double hypotenuse = Math.sqrt(Math.pow(AllyX - mobX , 2) + Math.pow(AllyY - mobY, 2));
+            double sinFactor = dY / hypotenuse;
+            double cosFactor = dX / hypotenuse;
+            double verticalSpeed = mobs.get(i).getSpeed() * sinFactor;
+            double horizontalSpeed = mobs.get(i).getSpeed() * cosFactor;
+            if (hypotenuse <= 100) {
+                mobs.get(i).adjustX((int) horizontalSpeed);
+                mobs.get(i).adjustY((int) verticalSpeed);
+            }
+        }
     }
 
 }

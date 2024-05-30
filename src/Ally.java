@@ -18,7 +18,7 @@ public class Ally{
         this.y = 600;
         this.hp = 100;
         this.maxHp = 100;
-        this.speed = 4;
+        this.speed = 7;
         this.direction = "right";
         this.wp = new Weapon(-100, -100, 0);
         this.rec = new Rectangle(x, y, img.getWidth(null), img.getWidth(null));
@@ -69,10 +69,6 @@ public class Ally{
         g2d.fillRect(x - 3, y - 20, (int)(50 * (double) hp / maxHp), 10);
     }
 
-    public void setDirection(String d) {
-        direction = d;
-    }
-
     public void setRunning(boolean running) {
         isRunning = running;
         checkDirection();
@@ -82,24 +78,8 @@ public class Ally{
         return x;
     }
 
-    public void setX(int x) {
-        this.x = x;
-    }
-
     public int getY() {
         return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public int getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(int speed) {
-        this.speed = speed;
     }
 
     public String getDirection() {
@@ -142,21 +122,6 @@ public class Ally{
         return rec;
     }
 
-    public boolean isUp() {
-        return up;
-    }
-
-    public boolean isRight() {
-        return right;
-    }
-
-    public boolean isDown() {
-        return down;
-    }
-
-    public boolean isLeft() {
-        return left;
-    }
 
     public Weapon getWp() {
         return wp;

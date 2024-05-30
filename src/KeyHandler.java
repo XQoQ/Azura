@@ -4,6 +4,22 @@ public class KeyHandler implements java.awt.event.KeyListener {
     private long timePassed = 500;
     private long startTime;
 
+    public long getTimePassed() {
+        return timePassed;
+    }
+
+    public void setTimePassed(long timePassed) {
+        this.timePassed = timePassed;
+    }
+
+    public long getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
+    }
+
     public KeyHandler(GamePanel gp) {
         this.gp = gp;
     }
@@ -69,11 +85,7 @@ public class KeyHandler implements java.awt.event.KeyListener {
                     }
                 }
                 gp.getGw().getBullets().add(bullet);
-            } else {
-                timePassed = System.currentTimeMillis() - startTime;
             }
-        } else {
-            startTime = 500;
         }
 
         if (gp.getGw().isAllyCollidingWithAnItem() && key == 'e') {
@@ -102,17 +114,5 @@ public class KeyHandler implements java.awt.event.KeyListener {
             gp.getGw().getAlly().setRunning(false);
         }
 
-//        if (gp.getGw().getAlly().isUp()) {
-//            gp.getGw().getAlly().setDirection("up");
-//        }
-//        if (gp.getGw().getAlly().isRight()) {
-//            gp.getGw().getAlly().setDirection("right");
-//        }
-//        if (gp.getGw().getAlly().isDown()) {
-//            gp.getGw().getAlly().setDirection("down");
-//        }
-//        if (gp.getGw().getAlly().isLeft()) {
-//            gp.getGw().getAlly().setDirection("left");
-//        }
     }
 }

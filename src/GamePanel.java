@@ -16,6 +16,7 @@ public class GamePanel extends JPanel {
 
         Runnable r = () -> {
             while (true) {
+                kh.setTimePassed(System.currentTimeMillis() - kh.getStartTime());
                 this.repaint();
                 try {
                     Thread.sleep(20);
@@ -40,6 +41,7 @@ public class GamePanel extends JPanel {
         }
         gw.drawAlly(this, g2d);
         gw.drawMob(this, g2d);
+        gw.checkRadius();
         try {
             gw.drawBullet(this, g2d);
         } catch (IOException e) {
