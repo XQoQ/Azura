@@ -118,4 +118,16 @@ public class Bullet {
     public int getDisappearOnContact() {
         return disappearOnContact;
     }
+
+    public long getStartTime() {
+        return startTime;
+    }
+
+    public long getTimePassed() {
+        return timePassed;
+    }
+
+    public long getFrameNumber() {
+        return frameNumber;
+    }
 }

@@ -12,7 +12,7 @@ public class Mob {
     private Image img = null;
     private int[][] mobList = {
             //0hp 1attack 2speed
-            {100,      5   , 4} // slime
+            {50,      5   , 4} // slime
     };
 
     public Mob(int x, int y, int ID, int direction) {

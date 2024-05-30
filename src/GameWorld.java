@@ -57,7 +57,7 @@ public class GameWorld {
 
     public void generateMob(int ID) {
         final int MAX_MOB_NUM = 5;
-        if ((int)(Math.random() * 10) + 1 == 1 && mobs.size() < MAX_MOB_NUM) {
+        if ((int)(Math.random() * 100) + 1 == 1 && mobs.size() < MAX_MOB_NUM) {
             int x =  (int) (Math.random() * 1500) + 50;
             int y =  (int) (Math.random() * 900) + 50;
             mobs.add(new Mob(x, y, ID, 2));
@@ -115,7 +115,7 @@ public class GameWorld {
                             i = 0;
                         }
                         if (mobs.get(j).getHp() <= 0) {
-                            if ((int)(Math.random() * 10) + 1 < 20) {
+                            if ((int)(Math.random() * 10) + 1 <= 4) {
                                 Item item = new Weapon(mobs.get(j).getX(), mobs.get(j).getY(), 1);
                                 items.add(item);
                             }
@@ -200,7 +200,7 @@ public class GameWorld {
             double cosFactor = dX / hypotenuse;
             double verticalSpeed = mobs.get(i).getSpeed() * sinFactor;
             double horizontalSpeed = mobs.get(i).getSpeed() * cosFactor;
-            if (hypotenuse <= 100) {
+            if (hypotenuse <= 200) {
                 mobs.get(i).adjustX((int) horizontalSpeed);
                 mobs.get(i).adjustY((int) verticalSpeed);
             }

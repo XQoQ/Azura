@@ -18,7 +18,7 @@ public class Ally{
         this.y = 600;
         this.hp = 100;
         this.maxHp = 100;
-        this.speed = 7;
+        this.speed = 5;
         this.direction = "right";
         this.wp = new Weapon(-100, -100, 0);
         this.rec = new Rectangle(x, y, img.getWidth(null), img.getWidth(null));
