@@ -37,11 +37,6 @@ public class GamePanel extends JPanel {
         gw.generateMob(0);
         gw.drawBackground(g, 0);
         try {
-            this.drawUI(g2d);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        try {
             gw.detectCollision(this, g2d);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -56,6 +51,11 @@ public class GamePanel extends JPanel {
         }
         gw.drawItem(this, g2d);
         gw.drawHitEffect(this, g2d);
+        try {
+            this.drawUI(g2d);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public GameWorld getGw() {
@@ -67,30 +67,35 @@ public class GamePanel extends JPanel {
         Image UIBlackTopLeft = (new ImageIcon("image/UI/UI_black_tl.png")).getImage();
         Image UIBlackBotLeft = (new ImageIcon("image/UI/UI_black_bl.png")).getImage();
         Image UIBlackBotRight = (new ImageIcon("image/UI/UI_black_br.png")).getImage();
-        Image ItemBackimg = (new ImageIcon("image/UI/item_back.png")).getImage();
-        Image CoinBackimg = (new ImageIcon("image/UI/coin_back.png")).getImage();
+        Image ItemBackImg = (new ImageIcon("image/UI/item_back.png")).getImage();
+        Image CoinBackImg = (new ImageIcon("image/UI/coin_back.png")).getImage();
         Image HPBar = (new ImageIcon("image/UI/HPT.png")).getImage();
         Image UITop = (new ImageIcon("image/UI/UI_top.png")).getImage();
-        Image coinImage = (new ImageIcon("image/Item/prop/coin.png")).getImage();
+        Image coinImage = new Coin(-100, -100, 99999).getImg();
         Image weaponIcon = gw.getAlly().getWp().getImg();
 
-        //HP Font
+        //UI Font
         Font HPfont = new Font("Courier New", Font.PLAIN, 24);
+        Font coinFont = new Font("Courier New", Font.PLAIN, 18);
 
-        //draw HP images
+        //draw UI images
         g2d.drawImage(UIBlackTopLeft, 0, 0, this);
         g2d.drawImage(UIBlackBotLeft, 0, 645, this);
         g2d.drawImage(UIBlackBotRight, 1380, 805, this);
         g2d.drawImage(UITop, 0, 0, this);
-        g2d.drawImage(HPBar, 32, 13, (300 * (gw.getAlly().getHp() / gw.getAlly().getMaxHp())), 30, null);
-        g2d.drawImage(CoinBackimg, 1440, 870, this);
-        g2d.drawImage(ItemBackimg, 0, 830, this);
-        g2d.drawImage(weaponIcon, 30, 860, this);
-        g2d.drawImage(HPBar, 32, 13, (300 * (gw.getAlly().getHp() / gw.getAlly().getMaxHp())), 30, null);
-        //draw HP info
-        g2d.setFont(HPfont);
+        g2d.drawImage(CoinBackImg, 1440, 870, this);
+        g2d.drawImage(ItemBackImg, 0, 830, this);
+        g2d.drawImage(weaponIcon.getScaledInstance(50, 50, Image.SCALE_DEFAULT), 23, 850, this);
+        g2d.drawImage(coinImage.getScaledInstance(38, 38, Image.SCALE_DEFAULT), 1443, 870, this);
+        g2d.drawImage(HPBar, 32, 13, (int) ((double) 300 * gw.getAlly().getHp() / gw.getAlly().getMaxHp()), 30, null);
+
+        //draw UI text
         g2d.setColor(Color.white);
+        g2d.setFont(HPfont);
         g2d.drawString("" + gw.getAlly().getHp() + "/" + gw.getAlly().getMaxHp(), 43, 37);
+
+        g2d.setFont(coinFont);
+        g2d.drawString(gw.getAlly().getCoinAmount() + "", 1485, 896);
 
     }
 }

@@ -7,10 +7,6 @@ public class Item {
     private Rectangle rect;
     private Image img;
 
-    public Item(Image img) {
-        this.img = img;
-    }
-
     public Item(int x, int y, Image img) {
         this.x = x;
         this.y = y;

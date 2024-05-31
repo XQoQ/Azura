@@ -7,6 +7,7 @@ public class Ally{
     private int x, y;
     private int speed;
     private int hp, maxHp;
+    private int coinAmount;
     private String direction;
     private boolean isRunning;
     private boolean up, right, down, left;
@@ -18,7 +19,8 @@ public class Ally{
         this.y = 600;
         this.hp = 100;
         this.maxHp = 100;
-        this.speed = 5;
+        this.speed = 6;
+        this.coinAmount = 0;
         this.direction = "right";
         this.wp = new Weapon(-100, -100, 0);
         this.rec = new Rectangle(x, y, img.getWidth(null), img.getWidth(null));
@@ -62,11 +64,6 @@ public class Ally{
         rec.x = x;
         rec.y = y;
         g2d.drawImage(img, x, y, gp);
-
-        g2d.setColor(Color.RED);
-        g2d.fillRect(x - 3, y - 20, 50, 10);
-        g2d.setColor(Color.GREEN);
-        g2d.fillRect(x - 3, y - 20, (int)(50 * (double) hp / maxHp), 10);
     }
 
     public void setRunning(boolean running) {
@@ -129,5 +126,13 @@ public class Ally{
 
     public void setWp(Weapon wp) {
         this.wp = wp;
+    }
+
+    public int getCoinAmount() {
+        return coinAmount;
+    }
+
+    public void setCoinAmount(int coinAmount) {
+        this.coinAmount += coinAmount;
     }
 }

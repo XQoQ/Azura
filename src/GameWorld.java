@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -115,8 +116,13 @@ public class GameWorld {
                             i = 0;
                         }
                         if (mobs.get(j).getHp() <= 0) {
-                            if ((int)(Math.random() * 10) + 1 <= 4) {
+                            int spawnChance = (int)(Math.random() * 10) + 1;
+                            if (spawnChance <= 4) {
                                 Item item = new Weapon(mobs.get(j).getX(), mobs.get(j).getY(), 1);
+                                items.add(item);
+                            } else if (spawnChance <= 6) {
+                                int randomValue = (int)(Math.random() * 41) + 10;
+                                Item item = new Coin(mobs.get(j).getX(), mobs.get(j).getY(), randomValue);
                                 items.add(item);
                             }
                             mobs.remove(j);
@@ -131,7 +137,13 @@ public class GameWorld {
             for (int i = 0; i < items.size(); i++) {
                 if (items.get(i) instanceof Weapon) {
                     if (Ally.getRec().intersects(items.get(i).getRect())) {
-                        drawPickUpText(gp, g2d, items.get(i));
+                        drawPickUpText(g2d, items.get(i));
+                    }
+                } else if (items.get(i) instanceof  Coin) {
+                    if (Ally.getRec().intersects(items.get(i).getRect())) {
+                        Ally.setCoinAmount(((Coin) items.get(i)).getValue());
+                        items.remove(i);
+                        i--;
                     }
                 }
             }
@@ -160,9 +172,13 @@ public class GameWorld {
         }
     }
 
-    private void drawPickUpText(GamePanel gp, Graphics2D g2d, Item i) {
+    private void drawPickUpText(Graphics2D g2d, Item i) {
+        Font font = new Font("Courier New", Font.PLAIN, 18);
+        g2d.setFont(font);
         g2d.setColor(Color.WHITE);
-        g2d.drawString("\"E\" Pick Up", i.getX() - (int) i.getRect().getWidth() / 2, i.getY());
+        Rectangle2D f = font.getStringBounds("\"E\" Pick Up", g2d.getFontRenderContext());
+
+        g2d.drawString("\"E\" Pick Up", i.getX() - (int) f.getWidth() / 2, i.getY() - 5);
     }
 
     public void drawHitEffect(GamePanel gp, Graphics2D g2d) {
