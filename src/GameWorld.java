@@ -223,4 +223,8 @@ public class GameWorld {
         }
     }
 
+    public boolean isGameOver() {
+        return Ally.getHp() <= 0;
+    }
+
 }

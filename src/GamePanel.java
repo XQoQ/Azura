@@ -6,12 +6,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class GamePanel extends JPanel {
+    private boolean pause;
     private GameWorld gw;
     private KeyHandler kh;
 
     public GamePanel() throws IOException {
         this.gw = new GameWorld();
         this.kh = new KeyHandler(this);
+        this.pause = false;
 
         this.setFocusable(true);
         this.addKeyListener(kh);
@@ -34,28 +36,36 @@ public class GamePanel extends JPanel {
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
 
-        gw.generateMob(0);
-        gw.drawBackground(g, 0);
-        try {
-            gw.detectCollision(this, g2d);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        this.pause = gw.isGameOver();
+
+        if (!pause) {
+            gw.generateMob(0);
+            gw.drawBackground(g, 0);
+            try {
+                gw.detectCollision(this, g2d);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            gw.drawAlly(this, g2d);
+            gw.drawMob(this, g2d);
+            gw.checkRadius();
+            try {
+                gw.drawBullet(this, g2d);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            gw.drawItem(this, g2d);
+            gw.drawHitEffect(this, g2d);
+            try {
+                this.drawUI(g2d);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            drawEndScreen(g2d);
         }
-        gw.drawAlly(this, g2d);
-        gw.drawMob(this, g2d);
-        gw.checkRadius();
-        try {
-            gw.drawBullet(this, g2d);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        gw.drawItem(this, g2d);
-        gw.drawHitEffect(this, g2d);
-        try {
-            this.drawUI(g2d);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+
+
     }
 
     public GameWorld getGw() {
@@ -63,7 +73,6 @@ public class GamePanel extends JPanel {
     }
 
     public void drawUI(Graphics2D g2d) throws IOException {
-
         Image UIBlackTopLeft = (new ImageIcon("image/UI/UI_black_tl.png")).getImage();
         Image UIBlackBotLeft = (new ImageIcon("image/UI/UI_black_bl.png")).getImage();
         Image UIBlackBotRight = (new ImageIcon("image/UI/UI_black_br.png")).getImage();
@@ -97,5 +106,16 @@ public class GamePanel extends JPanel {
         g2d.setFont(coinFont);
         g2d.drawString(gw.getAlly().getCoinAmount() + "", 1485, 896);
 
+    }
+
+    public void drawEndScreen(Graphics2D g2d) {
+        //Image endScreenBack = (new ImageIcon("image/Background/semi-transparent.png").getImage());
+
+        //g2d.drawImage(endScreenBack, 0, 0, this);
+
+        JLabel lbl = new JLabel();
+        lbl.setBackground(Color.gray);
+        lbl.setOpaque(true);
+        this.add(lbl);
     }
 }

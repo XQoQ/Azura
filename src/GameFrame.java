@@ -7,10 +7,6 @@ import java.util.ArrayList;
 public class GameFrame extends JFrame {
     static final int WIDTH = 1600;
     static final int HEIGHT = 960;
-    private boolean up = false;
-    private boolean right = false;
-    private boolean down = false;
-    private boolean left = false;
 
     public GameFrame() throws IOException {
         GamePanel gp = new GamePanel();
@@ -24,10 +20,6 @@ public class GameFrame extends JFrame {
         this.setVisible(true);
 
         this.add(gp);
-    }
-
-    public boolean isUp() {
-        return up;
     }
 
 

@@ -16,7 +16,7 @@ public class StartFrame extends JPanel implements ActionListener {
     private Picture crystal2 = new Picture(480, 220, (new ImageIcon("image/Title/crystal2.png")).getImage());
     private Picture crystal3 = new Picture(330, 30, (new ImageIcon("image/Title/crystal3.png")).getImage());
     private Picture crystal4 = new Picture(350, 250, (new ImageIcon("image/Title/crystal4.png")).getImage());
-    private Image icon = new ImageIcon("image/Item/arm/arm5.png").getImage();
+    private Image icon = new ImageIcon("image/MainCharacter/Ally.png").getImage();
 
     public StartFrame() {
         this.setSize(640, 480);
@@ -61,16 +61,6 @@ public class StartFrame extends JPanel implements ActionListener {
         Runnable r = () -> {
             // count decides step, which decides how the crystals at the start screen moves(up or down)
             while (true) {
-                if (count < 50) {
-                    count++;
-                    stepping = true;
-                } else {
-                    count++;
-                    stepping = false;
-                }
-                if (count == 100) {
-                    count = 0;
-                }
                 this.repaint();
                 try {
                     Thread.sleep(20);
