@@ -9,7 +9,7 @@ public class GameFrame extends JFrame {
     static final int HEIGHT = 960;
 
     public GameFrame() throws IOException {
-        GamePanel gp = new GamePanel();
+        GamePanel gp = new GamePanel(this);
 
         this.setSize(WIDTH, HEIGHT);
         this.setTitle("Azura");

@@ -17,7 +17,7 @@ public class Ally{
     public Ally() throws IOException {
         this.x = 32;
         this.y = 600;
-        this.hp = 100;
+        this.hp = 1;
         this.maxHp = 100;
         this.speed = 6;
         this.coinAmount = 0;

@@ -1,16 +1,26 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.awt.image.RescaleOp;
 import java.io.File;
 import java.io.IOException;
+import java.nio.Buffer;
 import java.util.ArrayList;
 
-public class GamePanel extends JPanel {
+public class GamePanel extends JPanel implements MouseListener {
     private boolean pause;
+    private GameFrame gf;
     private GameWorld gw;
     private KeyHandler kh;
+    private Rectangle newGame, exit;
 
-    public GamePanel() throws IOException {
+    public GamePanel(GameFrame gf) throws IOException {
+        this.gf = gf;
         this.gw = new GameWorld();
         this.kh = new KeyHandler(this);
         this.pause = false;
@@ -62,7 +72,11 @@ public class GamePanel extends JPanel {
                 throw new RuntimeException(e);
             }
         } else {
-            drawEndScreen(g2d);
+            try {
+                drawEndScreen(g2d);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
 
 
@@ -108,14 +122,48 @@ public class GamePanel extends JPanel {
 
     }
 
-    public void drawEndScreen(Graphics2D g2d) {
-        //Image endScreenBack = (new ImageIcon("image/Background/semi-transparent.png").getImage());
+    public void drawEndScreen(Graphics2D g2d) throws IOException {
+        g2d.setColor(Color.gray);
+        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, .1F));
+        g2d.fillRect(490, 200, 600, 500);
 
-        //g2d.drawImage(endScreenBack, 0, 0, this);
+        Font defaultFont = new Font("Courier New", Font.BOLD, 24);
+        g2d.setColor(Color.RED);
+        newGame = new Rectangle(550, 240, 150, 24);
+        g2d.fillRect(550, 240, 150, 24);
+        exit = new Rectangle(550, 270, 150, 24);
+        g2d.fillRect(550, 270, 150, 24);
 
-        JLabel lbl = new JLabel();
-        lbl.setBackground(Color.gray);
-        lbl.setOpaque(true);
-        this.add(lbl);
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if (e.getSource() == newGame) {
+            gf.dispose();
+            StartFrame sf = new StartFrame();
+        }
+        if (e.getSource() == exit) {
+            System.exit(0);
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
     }
 }
