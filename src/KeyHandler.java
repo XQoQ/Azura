@@ -25,7 +25,34 @@ public class KeyHandler implements java.awt.event.KeyListener {
     }
 
     public void keyTyped(KeyEvent e) {
+        char key = e.getKeyChar();
 
+        if (key == 'j') {
+            if (timePassed > 250) {
+                startTime = System.currentTimeMillis();
+                timePassed = 0;
+                Bullet bullet = new Bullet(gp.getGw().getAlly().getWp().getID(), gp.getGw().getAlly().getDirection());
+                switch (gp.getGw().getAlly().getDirection()) {
+                    case ("up") -> {
+                        bullet.setX(gp.getGw().getAlly().getX() + gp.getGw().getAlly().getImg().getWidth(null) / 2 - bullet.getImg().getWidth(null) / 2);
+                        bullet.setY(gp.getGw().getAlly().getY() + gp.getGw().getAlly().getImg().getHeight(null) / 2 - bullet.getImg().getHeight(null));
+                    }
+                    case ("right") -> {
+                        bullet.setX(gp.getGw().getAlly().getX() + gp.getGw().getAlly().getImg().getWidth(null) / 2);
+                        bullet.setY(gp.getGw().getAlly().getY() + gp.getGw().getAlly().getImg().getHeight(null) / 2 - bullet.getImg().getHeight(null) / 2);
+                    }
+                    case ("down") -> {
+                        bullet.setX(gp.getGw().getAlly().getX() + gp.getGw().getAlly().getImg().getWidth(null) / 2 - bullet.getImg().getWidth(null) / 2);
+                        bullet.setY(gp.getGw().getAlly().getY() + gp.getGw().getAlly().getImg().getHeight(null) / 2);
+                    }
+                    case ("left") -> {
+                        bullet.setX(gp.getGw().getAlly().getX() - bullet.getImg().getWidth(null));
+                        bullet.setY(gp.getGw().getAlly().getY() + gp.getGw().getAlly().getImg().getHeight(null) / 2 - bullet.getImg().getHeight(null) / 2);
+                    }
+                }
+                gp.getGw().getBullets().add(bullet);
+            }
+        }
     }
 
     @Override
@@ -60,7 +87,6 @@ public class KeyHandler implements java.awt.event.KeyListener {
                 gp.getGw().getAlly().setLeft(true);
             }
         }
-
         if (key == 'j') {
             if (timePassed > 250) {
                 startTime = System.currentTimeMillis();
@@ -88,8 +114,23 @@ public class KeyHandler implements java.awt.event.KeyListener {
             }
         }
 
-        if (gp.getGw().isAllyCollidingWithAnItem() && key == 'e') {
-            gp.getGw().swapWeapon();
+        if (gp.getGw().isAllyCollidingWithAnItem() && key == 'f') {
+            if (gp.getGw().getItemAllyIsColliding() instanceof Weapon) {
+                gp.getGw().swapWeapon();
+            }
+            if (gp.getGw().getItemAllyIsColliding() instanceof Recovery) {
+                for (int i = 0; i < gp.getGw().getBackpack().size(); i++) {
+                    if (gp.getGw().getBackpack().get(i).getItemName().equals(((Recovery) gp.getGw().getItemAllyIsColliding()).getItemName()) && gp.getGw().getBackpack().get(i).getNumInBackpack() < 10) {
+                        gp.getGw().getBackpack().get(i).increaseNumInBackpack();
+                        gp.getGw().removeItemCollected();
+                    }
+                }
+            }
+        }
+
+        if (gp.getGw().getAlly().getHp() < 100 && gp.getGw().getCurrentRecoveryItem().getNumInBackpack() > 0 && key == 'e') {
+            gp.getGw().getAlly().adjustHp(gp.getGw().getCurrentRecoveryItem().getRecoveryAmount());
+            gp.getGw().getCurrentRecoveryItem().decreaseNumInBackpack();
         }
     }
 

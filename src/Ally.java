@@ -1,5 +1,7 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 
 public class Ally{
@@ -17,7 +19,7 @@ public class Ally{
     public Ally() throws IOException {
         this.x = 32;
         this.y = 600;
-        this.hp = 1;
+        this.hp = 100;
         this.maxHp = 100;
         this.speed = 6;
         this.coinAmount = 0;
@@ -36,7 +38,7 @@ public class Ally{
         }
     }
 
-    public void updateAlly() {
+    public void updateAlly() throws IOException {
         if (up) {
             isRunning = true;
             direction = "up";
@@ -58,6 +60,9 @@ public class Ally{
             x -= speed;
         }
         checkDirection();
+        if (this.hp <= 0) {
+            img = ImageIO.read(new File("image/MainCharacter/death.png"));
+        }
     }
 
     public void renderAlly(GamePanel gp, Graphics2D g2d) {
@@ -104,8 +109,15 @@ public class Ally{
     }
 
     public void adjustHp(int hp) {
-        this.hp -= hp;
+        this.hp += hp;
+        if (this.hp > maxHp) {
+            this.hp = maxHp;
+        } else if (this.hp < 0) {
+            this.hp = 0;
+        }
     }
+
+    public void setHp(int hp) {}
 
     public int getMaxHp() {
         return maxHp;

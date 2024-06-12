@@ -13,20 +13,22 @@ import java.nio.Buffer;
 import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements MouseListener {
-    private boolean pause;
     private GameFrame gf;
     private GameWorld gw;
     private KeyHandler kh;
-    private Rectangle newGame, exit;
+    private Rectangle restart, home, exit;
 
     public GamePanel(GameFrame gf) throws IOException {
         this.gf = gf;
         this.gw = new GameWorld();
         this.kh = new KeyHandler(this);
-        this.pause = false;
+        restart = new Rectangle(920, 370, 150, 50);
+        home = new Rectangle(920, 470, 150, 50);
+        exit = new Rectangle(920, 570, 150, 50);
 
         this.setFocusable(true);
         this.addKeyListener(kh);
+        this.addMouseListener(this);
 
         Runnable r = () -> {
             while (true) {
@@ -46,9 +48,7 @@ public class GamePanel extends JPanel implements MouseListener {
     public void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
 
-        this.pause = gw.isGameOver();
-
-        if (!pause) {
+        if (!gw.isGameOver()) {
             gw.generateMob(0);
             gw.drawBackground(g, 0);
             try {
@@ -56,7 +56,11 @@ public class GamePanel extends JPanel implements MouseListener {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            gw.drawAlly(this, g2d);
+            try {
+                gw.drawAlly(this, g2d);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
             gw.drawMob(this, g2d);
             gw.checkRadius();
             try {
@@ -71,6 +75,7 @@ public class GamePanel extends JPanel implements MouseListener {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+            gw.drawBackpack(this, g2d);
         } else {
             try {
                 drawEndScreen(g2d);
@@ -124,25 +129,42 @@ public class GamePanel extends JPanel implements MouseListener {
 
     public void drawEndScreen(Graphics2D g2d) throws IOException {
         g2d.setColor(Color.gray);
-        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, .1F));
-        g2d.fillRect(490, 200, 600, 500);
+        g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, .2F));
+        g2d.fillRect(450, 200, 680, 500);
 
-        Font defaultFont = new Font("Courier New", Font.BOLD, 24);
         g2d.setColor(Color.RED);
-        newGame = new Rectangle(550, 240, 150, 24);
-        g2d.fillRect(550, 240, 150, 24);
-        exit = new Rectangle(550, 270, 150, 24);
-        g2d.fillRect(550, 270, 150, 24);
+        g2d.fillRect(920, 370, 150, 50); // restart game
+        g2d.fillRect(920, 470, 150, 50); //home page
+        g2d.fillRect(920, 570, 150, 50); // exit game
+
+        Font courierNew = new Font("Courier New", Font.BOLD, 35);
+        Image deathText = ImageIO.read(new File("image/UI/death_txt.png"));
+        Image deadAlly = ImageIO.read(new File("image/MainCharacter/death.png"));
+        g2d.setColor(Color.WHITE);
+        g2d.setFont(courierNew);
+        g2d.drawImage(deathText, 290, 200, this);
+        g2d.drawImage(deadAlly.getScaledInstance(288, 288, Image.SCALE_DEFAULT), 540, 340, this);
+        g2d.drawString("Restart", 920, 408);
+        g2d.drawString("Home", 950, 508);
+        g2d.drawString("Exit", 950, 608);
 
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (e.getSource() == newGame) {
+        if (restart.contains(e.getX(), e.getY())) {
+            gf.dispose();
+            try {
+                GameFrame gf = new GameFrame();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+        if (home.contains(e.getX(), e.getY())) {
             gf.dispose();
             StartFrame sf = new StartFrame();
         }
-        if (e.getSource() == exit) {
+        if (exit.contains(e.getX(), e.getY())) {
             System.exit(0);
         }
     }
