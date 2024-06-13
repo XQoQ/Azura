@@ -61,6 +61,16 @@ public class StartFrame extends JPanel implements ActionListener {
         Runnable r = () -> {
             // count decides step, which decides how the crystals at the start screen moves(up or down)
             while (true) {
+                if (count < 50) {
+                    count++;
+                    stepping = true;
+                } else if (count >= 50) {
+                    count++;
+                    stepping = false;
+                }
+                if (count == 100) {
+                    count = 0;
+                }
                 this.repaint();
                 try {
                     Thread.sleep(20);

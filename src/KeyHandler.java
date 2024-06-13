@@ -28,7 +28,7 @@ public class KeyHandler implements java.awt.event.KeyListener {
         char key = e.getKeyChar();
 
         if (key == 'j') {
-            if (timePassed > 250) {
+            if (timePassed > 450) {
                 startTime = System.currentTimeMillis();
                 timePassed = 0;
                 Bullet bullet = new Bullet(gp.getGw().getAlly().getWp().getID(), gp.getGw().getAlly().getDirection());
@@ -88,7 +88,7 @@ public class KeyHandler implements java.awt.event.KeyListener {
             }
         }
         if (key == 'j') {
-            if (timePassed > 250) {
+            if (timePassed > 450) {
                 startTime = System.currentTimeMillis();
                 timePassed = 0;
                 Bullet bullet = new Bullet(gp.getGw().getAlly().getWp().getID(), gp.getGw().getAlly().getDirection());
