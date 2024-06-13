@@ -18,10 +18,7 @@ public class GameFrame extends JFrame {
         this.setLocationRelativeTo(null);//screen pop up in the middle
         this.setResizable(false);
         this.setVisible(true);
-
         this.add(gp);
     }
-
-
 
 }

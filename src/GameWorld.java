@@ -311,11 +311,12 @@ public class GameWorld {
         return currentRecoveryItem;
     }
 
+    public ArrayList<Recovery> getBackpack() {
+        return backpack;
+    }
+
     public void setCurrentRecoveryItem(Recovery currentRecoveryItem) {
         this.currentRecoveryItem = currentRecoveryItem;
     }
 
-    public ArrayList<Recovery> getBackpack() {
-        return backpack;
-    }
 }
